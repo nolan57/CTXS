@@ -39,22 +39,6 @@ namespace CTXS
         private const string TireKeyNum = "42751";
         private const string SPTireKeyName = "D";
         
-
-        //private DialogResult dialogResult = DialogResult.OK;
-
-        //DialogResult ToSelectColMB(string MBMessage)
-        //{
-        //    string MBCaption = "ToSelect？";
-        //    MessageBoxButtons MBButtons = MessageBoxButtons.YesNo;
-        //    DialogResult MBResult;
-
-        //    MBResult = MessageBox.Show(MBMessage, MBCaption,
-        //        MBButtons, MessageBoxIcon.Question,
-        //        MessageBoxDefaultButton.Button1,
-        //        MessageBoxOptions.RightAlign);
-        //    return MBResult;
-        //}
-        
         private CTXSForm CTXSForm = null;
         private ProcessingForm ProcessingForm = null;
         private void CTXSRibbon_Load(object sender, RibbonUIEventArgs e)
@@ -77,21 +61,6 @@ namespace CTXS
             long PartNameColumn = 6;
             long PSStartColumn = 24;
             long StartRow = 1;
-
-            //Excel.Range TC;
-
-            //dialogResult = ToSelectColMB("默认零件号在第4列，重新选？");
-            //while(dialogResult == DialogResult.Yes) {
-            //    TC = (Excel.Range)Globals.ThisAddIn.Application.InputBox("To Select",
-            //        Type.Missing,
-            //        Type.Missing,
-            //        Type.Missing,
-            //        Type.Missing,
-            //        Type.Missing,
-            //        Type.Missing,
-            //        8);
-            //    dialogResult = ToSelectColMB($"零件号在第{TC.Column}列，需要重选吗？");
-            //}
 
             CTXSForm = new CTXSForm(Workbook, LastColumn);
             CTXSForm.ShowDialog();
@@ -147,9 +116,6 @@ namespace CTXS
                 }
             }
 
-            //PartNuStartCell = Worksheet.Cells[4, 4];
-            //PartNameStartCell = Worksheet.Cells[4, 6];
-            //PSStartCell = Worksheet.Cells[4, 24];
 
             ProcessingForm = new ProcessingForm();
             Excel.Range EndPartNumCell = PartNuStartCell;

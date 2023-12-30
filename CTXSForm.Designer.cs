@@ -47,6 +47,9 @@ namespace CTXS
             this.SelectPartNumColButton = new System.Windows.Forms.Button();
             this.SelectPartNameColButton = new System.Windows.Forms.Button();
             this.SelectPSStartColButton = new System.Windows.Forms.Button();
+            this.PartNumColDefaultValueLabel = new System.Windows.Forms.Label();
+            this.PartNameColDefaultValueLabel = new System.Windows.Forms.Label();
+            this.PSStartColDefaultValueLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // PartNumColTextBox
@@ -108,7 +111,7 @@ namespace CTXS
             this.NGButton.Name = "NGButton";
             this.NGButton.Size = new System.Drawing.Size(217, 71);
             this.NGButton.TabIndex = 4;
-            this.NGButton.Text = "放弃";
+            this.NGButton.Text = "保持默认值";
             this.NGButton.UseVisualStyleBackColor = true;
             this.NGButton.Click += new System.EventHandler(this.NGButton_Click);
             // 
@@ -116,7 +119,7 @@ namespace CTXS
             // 
             this.PartNumColLabel.AutoSize = true;
             this.PartNumColLabel.Font = new System.Drawing.Font("楷体", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.PartNumColLabel.Location = new System.Drawing.Point(120, 112);
+            this.PartNumColLabel.Location = new System.Drawing.Point(81, 109);
             this.PartNumColLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.PartNumColLabel.Name = "PartNumColLabel";
             this.PartNumColLabel.Size = new System.Drawing.Size(397, 38);
@@ -127,7 +130,7 @@ namespace CTXS
             // 
             this.PartNameColLabel.AutoSize = true;
             this.PartNameColLabel.Font = new System.Drawing.Font("楷体", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.PartNameColLabel.Location = new System.Drawing.Point(120, 232);
+            this.PartNameColLabel.Location = new System.Drawing.Point(81, 229);
             this.PartNameColLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.PartNameColLabel.Name = "PartNameColLabel";
             this.PartNameColLabel.Size = new System.Drawing.Size(397, 38);
@@ -138,12 +141,12 @@ namespace CTXS
             // 
             this.PSStartColLabel.AutoSize = true;
             this.PSStartColLabel.Font = new System.Drawing.Font("楷体", 14F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(134)));
-            this.PSStartColLabel.Location = new System.Drawing.Point(157, 360);
+            this.PSStartColLabel.Location = new System.Drawing.Point(81, 354);
             this.PSStartColLabel.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.PSStartColLabel.Name = "PSStartColLabel";
-            this.PSStartColLabel.Size = new System.Drawing.Size(359, 38);
+            this.PSStartColLabel.Size = new System.Drawing.Size(435, 38);
             this.PSStartColLabel.TabIndex = 7;
-            this.PSStartColLabel.Text = "请输入派生起始列数";
+            this.PSStartColLabel.Text = "请输入派生系数起始列数";
             // 
             // CaptionLabel
             // 
@@ -159,6 +162,7 @@ namespace CTXS
             // PartNumColHin
             // 
             this.PartNumColHin.AutoSize = true;
+            this.PartNumColHin.ForeColor = System.Drawing.Color.Red;
             this.PartNumColHin.Location = new System.Drawing.Point(556, 159);
             this.PartNumColHin.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.PartNumColHin.Name = "PartNumColHin";
@@ -168,6 +172,7 @@ namespace CTXS
             // PartNameColHin
             // 
             this.PartNameColHin.AutoSize = true;
+            this.PartNameColHin.ForeColor = System.Drawing.Color.Red;
             this.PartNameColHin.Location = new System.Drawing.Point(556, 273);
             this.PartNameColHin.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.PartNameColHin.Name = "PartNameColHin";
@@ -177,6 +182,7 @@ namespace CTXS
             // PSStartColHin
             // 
             this.PSStartColHin.AutoSize = true;
+            this.PSStartColHin.ForeColor = System.Drawing.Color.Red;
             this.PSStartColHin.Location = new System.Drawing.Point(556, 401);
             this.PSStartColHin.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.PSStartColHin.Name = "PSStartColHin";
@@ -228,11 +234,41 @@ namespace CTXS
             this.SelectPSStartColButton.UseVisualStyleBackColor = true;
             this.SelectPSStartColButton.Click += new System.EventHandler(this.SelectPSStartColButton_Click);
             // 
+            // PartNumColDefaultValueLabel
+            // 
+            this.PartNumColDefaultValueLabel.AutoSize = true;
+            this.PartNumColDefaultValueLabel.Location = new System.Drawing.Point(81, 159);
+            this.PartNumColDefaultValueLabel.Name = "PartNumColDefaultValueLabel";
+            this.PartNumColDefaultValueLabel.Size = new System.Drawing.Size(118, 24);
+            this.PartNumColDefaultValueLabel.TabIndex = 19;
+            this.PartNumColDefaultValueLabel.Text = "默认值：4";
+            // 
+            // PartNameColDefaultValueLabel
+            // 
+            this.PartNameColDefaultValueLabel.AutoSize = true;
+            this.PartNameColDefaultValueLabel.Location = new System.Drawing.Point(81, 288);
+            this.PartNameColDefaultValueLabel.Name = "PartNameColDefaultValueLabel";
+            this.PartNameColDefaultValueLabel.Size = new System.Drawing.Size(118, 24);
+            this.PartNameColDefaultValueLabel.TabIndex = 20;
+            this.PartNameColDefaultValueLabel.Text = "默认值：6";
+            // 
+            // PSStartColDefaultValueLabel
+            // 
+            this.PSStartColDefaultValueLabel.AutoSize = true;
+            this.PSStartColDefaultValueLabel.Location = new System.Drawing.Point(81, 417);
+            this.PSStartColDefaultValueLabel.Name = "PSStartColDefaultValueLabel";
+            this.PSStartColDefaultValueLabel.Size = new System.Drawing.Size(130, 24);
+            this.PSStartColDefaultValueLabel.TabIndex = 21;
+            this.PSStartColDefaultValueLabel.Text = "默认值：24";
+            // 
             // CTXSForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(12F, 24F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1067, 600);
+            this.Controls.Add(this.PSStartColDefaultValueLabel);
+            this.Controls.Add(this.PartNameColDefaultValueLabel);
+            this.Controls.Add(this.PartNumColDefaultValueLabel);
             this.Controls.Add(this.SelectPSStartColButton);
             this.Controls.Add(this.SelectPartNameColButton);
             this.Controls.Add(this.SelectPartNumColButton);
@@ -278,5 +314,8 @@ namespace CTXS
         private System.Windows.Forms.Button SelectPartNumColButton;
         private System.Windows.Forms.Button SelectPartNameColButton;
         private System.Windows.Forms.Button SelectPSStartColButton;
+        private Label PartNumColDefaultValueLabel;
+        private Label PartNameColDefaultValueLabel;
+        private Label PSStartColDefaultValueLabel;
     }
 }

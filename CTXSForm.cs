@@ -8,6 +8,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Timers;
 using System.Windows.Forms;
 using Microsoft.Office.Interop.Excel;
 //using Application = System.Windows.Forms.Application;
@@ -19,6 +20,9 @@ namespace CTXS
     public partial class CTXSForm : Form
     {
         public bool Go = false;
+        private bool OKButtonEnabledByPartNumColTextBoxChanged = true;
+        private bool OKButtonEnabledByPartNameColTextBoxChanged = true;
+        private bool OKButtonEnabledByPSStartColTextBoxChanged = true;
 
         public Excel.Workbook Workbook = null;
         public Excel.Worksheet Worksheet = null;
@@ -170,7 +174,7 @@ namespace CTXS
             if (!(e.KeyChar >= '0' && e.KeyChar <= '9' || e.KeyChar == '.' || e.KeyChar == 8))
             {
                 //MessageBox.Show("请输入整数");
-                this.PartNumColHin.Text = "请输入整数";
+                this.PartNumColHin.Text = "请输入数字";
                 this.PartNumColHin.Visible = true;
                 e.Handled = true;
             }
@@ -182,7 +186,7 @@ namespace CTXS
             if (!(e.KeyChar >= '0' && e.KeyChar <= '9' || e.KeyChar == '.' || e.KeyChar == 8))
             {
                 //MessageBox.Show("请输入整数");
-                this.PartNameColHin.Text = "请输入整数";
+                this.PartNameColHin.Text = "请输入数字";
                 this.PartNameColHin.Visible = true;
                 e.Handled = true;
             }
@@ -195,7 +199,7 @@ namespace CTXS
             if (!(e.KeyChar >= '0' && e.KeyChar <= '9' || e.KeyChar == '.' || e.KeyChar == 8))
             {
                 //MessageBox.Show("请输入整数");
-                this.PSStartColHin.Text = "请输入整数";
+                this.PSStartColHin.Text = "请输入数字";
                 this.PSStartColHin.Visible = true;
                 e.Handled = true;
             }
@@ -204,12 +208,11 @@ namespace CTXS
         private void PartNumColTextBox_TextChanged(object sender, EventArgs e)
         {
             PartNumColHin.Visible = false;
-            this.OKButton.Enabled = true;
-            if (string.IsNullOrEmpty(this.PartNameColTextBox.Text))
+            if (string.IsNullOrEmpty(this.PartNumColTextBox.Text))
             {
-                this.PartNumColHin.Text = $"不能为空";
+                this.PartNumColHin.Text = $"不能为空否则恢复默认值4";
                 this.PartNumColHin.Visible = true;
-                this.OKButton.Enabled = false;
+                //this.OKButton.Enabled = false;
                 return;
             }
             long Inputed;
@@ -218,33 +221,47 @@ namespace CTXS
             {
                 this.PartNumColHin.Text = $"不能等于0";
                 this.PartNumColHin.Visible = true;
-                this.OKButton.Enabled = false;
+                //this.OKButton.Enabled = false;
+                return;
+            }
+            if (Inputed == Convert.ToInt64(this.PartNameColTextBox.Text))
+            {
+                this.PartNumColHin.Text = $"不能和零件名同列";
+                this.PartNumColHin.Visible = true;
+                //this.OKButton.Enabled = false;
+                return;
             }
             if (Inputed > LastColumn)
             {
-                this.PartNumColHin.Text = $"不能大于{LastColumn}";
+                this.PartNumColHin.Text = $"不能超出最边列：{LastColumn}";
                 this.PartNumColHin.Visible = true ;
                 this.OKButton.Enabled = false;
+                this.OKButtonEnabledByPartNumColTextBoxChanged = false;
+            }
+            else
+            {
+                this.OKButtonEnabledByPartNumColTextBoxChanged = true;
+                this.PartNameColHin.Visible = false;
             }
             long PSStarColInputed;
             PSStarColInputed = Convert.ToInt64(this.PSStartColTextBox.Text);
-            if (Inputed > PSStarColInputed)
+            if (Inputed >= PSStarColInputed)
             {
-                this.PartNumColHin.Text = $"不能大于{PSStarColInputed}";
+                this.PartNumColHin.Text = $"不能大于等于派生系数起始列：{PSStarColInputed}";
                 this.PartNumColHin.Visible = true;
-                this.OKButton.Enabled = false;
+                //this.OKButton.Enabled = false;
+                return;
             }
         }
 
         private void PartNameColTextBox_TextChanged(object sender, EventArgs e)
         {
             PartNameColHin.Visible = false;
-            this.OKButton.Enabled = true;
             if (string.IsNullOrEmpty(this.PartNameColTextBox.Text))
             {
-                this.PartNameColHin.Text = $"不能为空";
+                this.PartNameColHin.Text = $"不能为空否则恢复默认值6";
                 this.PartNameColHin.Visible = true;
-                this.OKButton.Enabled = false;
+                //this.OKButton.Enabled = false;
                 return;
             }
             long Inputed;
@@ -253,34 +270,48 @@ namespace CTXS
             {
                 this.PartNameColHin.Text = $"不能等于0";
                 this.PartNameColHin.Visible = true;
-                this.OKButton.Enabled = false;
+                //this.OKButton.Enabled = false;
+                return;
+            }
+            if (Inputed == Convert.ToInt64(this.PartNumColTextBox.Text))
+            {
+                this.PartNameColHin.Text = $"不能和零件号同列";
+                this.PartNameColHin.Visible = true;
+                //this.OKButton.Enabled = false;
+                return;
             }
             if (Inputed > LastColumn)
             {
-                this.PartNameColHin.Text = $"不能大于{LastColumn}";
+                this.PartNameColHin.Text = $"不能超出最边列：{LastColumn}";
                 this.PartNameColHin.Visible = true;
-                this.OKButton.Enabled = false;
+                //this.OKButton.Enabled = false;
+                this.OKButtonEnabledByPartNameColTextBoxChanged = false;
+            }
+            else
+            {
+                this.OKButtonEnabledByPartNameColTextBoxChanged = true;
+                this.PartNameColHin.Visible = false;
             }
 
             long PSStarColInputed;
             PSStarColInputed = Convert.ToInt64(this.PSStartColTextBox.Text);
-            if (Inputed > PSStarColInputed)
+            if (Inputed >= PSStarColInputed)
             {
-                this.PartNameColHin.Text = $"不能大于{PSStarColInputed}";
+                this.PartNameColHin.Text = $"不能大于等于派生系数起始列：{PSStarColInputed}";
                 this.PartNameColHin.Visible = true;
-                this.OKButton.Enabled = false;
+                //this.OKButton.Enabled = false;
+                return;
             }
         }
 
         private void PSStartColTextBox_TextChanged(object sender, EventArgs e)
         {
             PSStartColHin.Visible = false;
-            this.OKButton.Enabled = true;
             if (string.IsNullOrEmpty(this.PSStartColTextBox.Text))
             {
-                this.PSStartColHin.Text = $"不能为空";
+                this.PSStartColHin.Text = $"不能为空否则恢复默认值24";
                 this.PSStartColHin.Visible = true;
-                this.OKButton.Enabled = false;
+                //this.OKButton.Enabled = false;
                 return;
             }
             long Inputed;
@@ -289,27 +320,36 @@ namespace CTXS
             {
                 this.PSStartColHin.Text = $"不能等于0";
                 this.PSStartColHin.Visible = true;
-                this.OKButton.Enabled = false;
+                //this.OKButton.Enabled = false;
+                return;
             }
             if (Inputed > LastColumn)
             {
-                this.PSStartColHin.Text = $"不能大于{LastColumn}";
+                this.PSStartColHin.Text = $"不能超出最边列：{LastColumn}";
                 this.PSStartColHin.Visible = true;
-                this.OKButton.Enabled = false;
+                //this.OKButton.Enabled = false;
+                this.OKButtonEnabledByPSStartColTextBoxChanged = false;
+            }
+            else
+            {
+                this.OKButtonEnabledByPSStartColTextBoxChanged = true;
+                this.PSStartColHin.Visible = false;
             }
             long PartNumColInputed = Convert.ToInt64(this.PartNumColTextBox.Text);
             long PartNameColInputed = Convert.ToInt64(this.PartNameColTextBox.Text);
-            if (Inputed < PartNumColInputed )
+            if (Inputed <= PartNumColInputed )
             {
-                this.PSStartColHin.Text = $"不能小于{PartNumColInputed}";
+                this.PSStartColHin.Text = $"不能小于等于零件号所在列：{PartNumColInputed}";
                 this.PSStartColHin.Visible = true;
-                this.OKButton.Enabled = false;
+                //this.OKButton.Enabled = false;
+                return;
             }
-            if (Inputed < PartNameColInputed)
+            if (Inputed <= PartNameColInputed)
             {
-                this.PSStartColHin.Text = $"不能小于{PartNameColInputed}";
+                this.PSStartColHin.Text = $"不能小于等于零件名所在列：{PartNameColInputed}";
                 this.PSStartColHin.Visible = true;
-                this.OKButton.Enabled = false;
+                //this.OKButton.Enabled = false;
+                return;
             }
         }
 
@@ -328,17 +368,140 @@ namespace CTXS
 
         private void PSStartColTextBox_Leave(object sender, EventArgs e)
         {
+
+
+            long PSStartColInputed = 24;
+            if (!(string.IsNullOrEmpty(this.PSStartColTextBox.Text)))
+            {
+                PSStartColInputed = Convert.ToInt64(this.PSStartColTextBox.Text);
+            }
+            else
+            {
+                this.PSStartColTextBox.Text =$"{PSStartColInputed}";
+            }
+
+            long PartNameColInputed = Convert.ToInt64(this.PartNameColTextBox.Text);
+            long PartNumColInputed = Convert.ToInt64(this.PartNumColTextBox.Text);
+
             this.PSStartColTextBox.ReadOnly=true;
+            if (this.OKButtonEnabledByPartNameColTextBoxChanged &&
+                this.OKButtonEnabledByPartNumColTextBoxChanged &&
+                this.OKButtonEnabledByPSStartColTextBoxChanged)
+            {
+                if((PartNumColInputed < PSStartColInputed) && 
+                    (PartNameColInputed < PSStartColInputed))
+                {
+                    this.OKButton.Enabled = true;
+                }
+                else
+                {
+                    if (!(PartNumColInputed < PSStartColInputed))
+                    {
+                        this.PartNumColHin.Text = $"不能大于派生系数起始列：{Convert.ToInt64(this.PSStartColTextBox.Text)}";
+                        this.PartNumColHin.Visible = true;
+                    }
+                    if (!(PartNameColInputed < PSStartColInputed))
+                    {
+                        this.PartNameColHin.Text = $"不能大于派生系数起始列：{Convert.ToInt64(this.PSStartColTextBox.Text)}";
+                        this.PartNameColHin.Visible = true;
+                    }
+                    this.OKButton.Enabled = false;
+                }
+            }
+            else
+            {
+                this.OKButton.Enabled = false;
+            }
         }
 
         private void PartNumColTextBox_Leave(object sender, EventArgs e)
         {
+            long PartNumColInputed = 4;
+            if (!(string.IsNullOrEmpty(this.PartNumColTextBox.Text)))
+            {
+                PartNumColInputed = Convert.ToInt64(this.PartNumColTextBox.Text);
+            }
+            else
+            {
+                this.PartNumColTextBox.Text = $"{PartNumColInputed}";
+            }
+
+            long PartNameColInputed = Convert.ToInt64(this.PartNameColTextBox.Text);
+            long PSStartColInputed = Convert.ToInt64(this.PSStartColTextBox.Text);
+
             this.PartNumColTextBox.ReadOnly = true;
+            if (this.OKButtonEnabledByPartNameColTextBoxChanged &&
+                this.OKButtonEnabledByPartNumColTextBoxChanged &&
+                this.OKButtonEnabledByPSStartColTextBoxChanged)
+            {
+                if ((PartNumColInputed < PSStartColInputed) && (PartNameColInputed < PSStartColInputed))
+                {
+                    this.OKButton.Enabled = true;
+                }
+                else
+                {
+                    if(!(PartNumColInputed < PSStartColInputed))
+                    {
+                        this.PartNumColHin.Text = $"不能大于等于派生系数起始列：{Convert.ToInt64(this.PSStartColTextBox.Text)}";
+                        this.PartNumColHin.Visible = true;
+                    }
+                    if (!(PartNameColInputed < PSStartColInputed))
+                    {
+                        this.PartNameColHin.Text = $"不能大于等于派生系数起始列：{Convert.ToInt64(this.PSStartColTextBox.Text)}";
+                        this.PartNameColHin.Visible = true;
+                    }
+                    this.OKButton.Enabled = false;
+                }
+            }
+            else
+            {
+                this.OKButton.Enabled = false;
+            }
         }
 
         private void PartNameColTextBox_Leave(object sender, EventArgs e)
         {
+            long PartNameColInputed = 6;
+            if (!(string.IsNullOrEmpty(this.PartNameColTextBox.Text)))
+            {
+                PartNameColInputed = Convert.ToInt64(this.PartNameColTextBox.Text);
+            }
+            else
+            {
+                this.PartNameColTextBox.Text = $"{PartNameColInputed}";
+            }
+
+            long PSStartColInputed = Convert.ToInt64(this.PSStartColTextBox.Text);
+            long PartNumColInputed = Convert.ToInt64(this.PartNumColTextBox.Text);
+
             this.PartNameColTextBox.ReadOnly = true;
+            if (this.OKButtonEnabledByPartNameColTextBoxChanged &&
+                this.OKButtonEnabledByPartNumColTextBoxChanged &&
+                this.OKButtonEnabledByPSStartColTextBoxChanged)
+            {
+                if ((PartNumColInputed < PSStartColInputed) && (PartNameColInputed < PSStartColInputed))
+                {
+                    this.OKButton.Enabled = true;
+                }
+                else
+                {
+                    if (!(PartNumColInputed < PSStartColInputed))
+                    {
+                        this.PartNumColHin.Text = $"不能大于等于派生系数起始列：{Convert.ToInt64(this.PSStartColTextBox.Text)}";
+                        this.PartNumColHin.Visible = true;
+                    }
+                    if (!(PartNameColInputed < PSStartColInputed))
+                    {
+                        this.PartNameColHin.Text = $"不能大于等于派生系数起始列：{Convert.ToInt64(this.PSStartColTextBox.Text)}";
+                        this.PartNameColHin.Visible = true;
+                    }
+                    this.OKButton.Enabled = false;
+                }
+            }
+            else
+            {
+                this.OKButton.Enabled = false;
+            }
         }
 
         private void AbortButton_Click(object sender, EventArgs e)

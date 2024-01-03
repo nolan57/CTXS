@@ -51,12 +51,12 @@
             // MyMGroup
             // 
             this.MyMGroup.Items.Add(this.CTXSButton);
-            this.MyMGroup.Label = "MyM";
+            this.MyMGroup.Label = "修正轮胎总成系数";
             this.MyMGroup.Name = "MyMGroup";
             // 
             // CTXSButton
             // 
-            this.CTXSButton.Label = "修正轮胎系数";
+            this.CTXSButton.Label = "开始";
             this.CTXSButton.Name = "CTXSButton";
             this.CTXSButton.Click += new Microsoft.Office.Tools.Ribbon.RibbonControlEventHandler(this.CTXSButton_Click);
             // 

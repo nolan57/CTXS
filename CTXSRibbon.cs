@@ -234,5 +234,10 @@ namespace CTXS
             ProcessingForm.ProcessingLabel.Text = $"结束，共修正{xsCount}个系数";
             CTXSForm.Dispose();
         }
+
+        private void button1_Click(object sender, RibbonControlEventArgs e)
+        {
+            this.CTXSButton.Enabled = true;
+        }
     }
 }
